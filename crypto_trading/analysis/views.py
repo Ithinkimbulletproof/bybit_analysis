@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from .models import Coin
-from .utils import analyze_coin
+from .utils import perform_analysis
 
 def analyze_view(request, symbol):
     # Получаем настройки и результаты анализа через utils.analyze_coin
-    settings, analysis = analyze_coin(symbol)
+    settings, analysis = perform_analysis(symbol)  # Используем правильное название функции
 
     # Сохраняем или обновляем информацию о монете в базе данных
     coin, created = Coin.objects.get_or_create(symbol=symbol)

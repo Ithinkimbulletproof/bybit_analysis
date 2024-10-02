@@ -1,23 +1,25 @@
-# utils.py
 import pandas as pd
 import pandas_ta as ta
 import requests
-
 
 def fetch_historical_data(symbol):
     """Получение исторических данных по криптовалюте."""
     url = f"https://api.bybit.com/v2/public/kline/list?symbol={symbol}&interval=1&limit=200"
     response = requests.get(url)
-    data = response.json()["result"]
 
+    # Проверка на ошибки
+    if response.status_code != 200:
+        raise ValueError(
+            f"Error fetching data for {symbol}: {response.text}")
+
+    data = response.json()["result"]
     df = pd.DataFrame(data)
     df["timestamp"] = pd.to_datetime(df["open_time"], unit="s")
     df.set_index("timestamp", inplace=True)
     df = df[["open", "high", "low", "close", "volume"]].astype(float)
     return df
 
-
-def analyze_coin(symbol):
+def perform_analysis(symbol):
     """Анализирует монету и возвращает рекомендации по настройкам."""
     df = fetch_historical_data(symbol)
 
