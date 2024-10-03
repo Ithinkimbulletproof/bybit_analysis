@@ -1,24 +1,29 @@
-{% extends 'base.html' %}
+{% extends 'analysis/base.html' %}
 
 {% block title %}
     Результаты анализа для {{ coin.symbol }}
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            <h1>Результаты анализа для {{ coin.symbol }}</h1>
-        </div>
-        <div class="card-body">
-            <h2>Рекомендации:</h2>
-            <ul class="list-group mb-3">
-                <li class="list-group-item">Стратегия: <strong>{{ coin.settings.strategy }}</strong></li>
-                <li class="list-group-item">Уровень риска: <strong>{{ coin.settings.risk_level }}</strong></li>
-            </ul>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h4">Результаты анализа для {{ coin.symbol }}</h1>
+            </div>
+            <div class="card-body">
+                <h2 class="h5">Рекомендации:</h2>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item">Стратегия: <strong>{{ coin.settings.strategy }}</strong></li>
+                    <li class="list-group-item">Уровень риска: <strong>{{ coin.settings.risk_level }}</strong></li>
+                </ul>
 
-            <h2>Подробности анализа:</h2>
-            <div class="table-responsive">
-                {{ coin.analysis_result|safe }}
+                <h2 class="h5">Подробности анализа:</h2>
+                <div class="table-responsive">
+                    {{ coin.analysis_result|safe }}
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                &copy; 2024 Ваше имя или название проекта
             </div>
         </div>
     </div>
