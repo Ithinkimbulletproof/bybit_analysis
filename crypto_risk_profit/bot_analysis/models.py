@@ -1,3 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
+class CurrencyPair(models.Model):
+    name = models.CharField(max_length=10)
+    current_price = models.DecimalField(max_digits=20, decimal_places=10)
+    historical_prices = models.JSONField()
+    volatility = models.FloatField(default=0)
+
+
+class Strategy(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    parameters = models.JSONField()
