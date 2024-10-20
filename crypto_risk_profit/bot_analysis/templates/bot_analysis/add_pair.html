@@ -1,0 +1,13 @@
+{% extends 'bot_analysis/base.html' %}
+
+{% block title %}Добавить валютную пару{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Добавить валютную пару</h1>
+
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+{% endblock %}

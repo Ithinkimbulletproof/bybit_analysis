@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import CurrencyPair
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import CurrencyPair, Strategy
+from .forms import CurrencyPairForm, StrategyForm
 import requests
 import numpy as np
 
@@ -35,3 +36,46 @@ def index(request):
         )
     pairs = CurrencyPair.objects.all()
     return render(request, "index.html", {"currency_pairs": pairs})
+
+
+def pair_analysis(request, currency_pair):
+    pair = get_object_or_404(CurrencyPair, name=currency_pair)
+    return render(request, "pair_analysis.html", {"pair": pair})
+
+
+def add_pair(request):
+    if request.method == "POST":
+        form = CurrencyPairForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("index")
+    else:
+        form = CurrencyPairForm()
+    return render(request, "add_pair.html", {"form": form})
+
+
+def delete_pair(request, currency_pair):
+    pair = get_object_or_404(CurrencyPair, name=currency_pair)
+    pair.delete()
+    return redirect("index")
+
+
+def update_pair(request, currency_pair):
+    pair = get_object_or_404(CurrencyPair, name=currency_pair)
+    historical_prices = fetch_price_data(pair.name)
+    pair.current_price = historical_prices[-1] if historical_prices else 0
+    pair.volatility = calculate_risk(historical_prices)
+    pair.historical_prices = historical_prices
+    pair.save()
+    return redirect("pair_analysis", currency_pair=currency_pair)
+
+
+def add_strategy(request):
+    if request.method == "POST":
+        form = StrategyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("index")
+    else:
+        form = StrategyForm()
+    return render(request, "add_strategy.html", {"form": form})

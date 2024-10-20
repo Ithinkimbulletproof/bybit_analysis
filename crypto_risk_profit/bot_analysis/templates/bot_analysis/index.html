@@ -1,0 +1,30 @@
+{% extends 'bot_analysis/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Валютные пары</h1>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Валютная пара</th>
+                <th>Текущая цена</th>
+                <th>Волатильность</th>
+                <th>Детали</th>
+                <th>Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pair in currency_pairs %}
+            <tr>
+                <td>{{ pair.name }}</td>
+                <td>{{ pair.current_price }}</td>
+                <td>{{ pair.volatility }}</td>
+                <td><a class="btn btn-info" href="{% url 'pair_analysis' pair.name %}">Подробнее</a></td>
+                <td><a class="btn btn-danger" href="{% url 'delete_pair' pair.name %}">Удалить</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

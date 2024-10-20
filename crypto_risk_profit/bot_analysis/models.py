@@ -7,8 +7,14 @@ class CurrencyPair(models.Model):
     historical_prices = models.JSONField()
     volatility = models.FloatField(default=0)
 
+    def __str__(self):
+        return self.name
+
 
 class Strategy(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
     parameters = models.JSONField()
+
+    def __str__(self):
+        return self.name

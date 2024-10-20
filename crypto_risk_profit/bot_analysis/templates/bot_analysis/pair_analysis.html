@@ -1,0 +1,18 @@
+{% extends 'bot_analysis/base.html' %}
+
+{% block title %}Анализ валютной пары{% endblock %}
+
+{% block content %}
+    <h1>Анализ {{ pair.name }}</h1>
+    <p>Текущая цена: {{ pair.current_price }}</p>
+    <p>Волатильность: {{ pair.volatility }}</p>
+
+    <h2>Исторические данные:</h2>
+    <ul>
+        {% for price in pair.historical_prices %}
+        <li>{{ price }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'index' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}
